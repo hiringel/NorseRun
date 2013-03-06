@@ -3,7 +3,16 @@
     package="com.example.norserun"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+   <!--Added code for permissions WebAtlas-->
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
 
+    //Hvis du skal bruke lokalisasjon
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+
+    
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="14" />
@@ -21,6 +30,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+          <activity
+            android:label="@string/app_name"
+            android:name=".KartActivity" >
         </activity>
     </application>
 
