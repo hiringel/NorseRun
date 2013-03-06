@@ -1,15 +1,25 @@
 package com.example.norserun;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends SherlockActivity implements ActionBar.TabListener {
 
 	//Instansiere Button widget
 	Button kartButton;
@@ -18,17 +28,73 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//Lager tabsa
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		initializeActionBarTabs();
+		
 		//Button-ting, lage button og lage listener
 		addListenerOnButton();
 	}
 
+
+
 	//Dette er for menu-knappen
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.activity_main, menu);
-//		return true;
-//	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+//		getSupportMenuInflater().inflate(R.menu.activity_item, menu);
+		
+		menu.add("Overflow")
+		.setIcon(R.drawable.ic_action_overflow).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+
+		
+		return true;
+	}
+	
+	/* initializeAcitonBarTabs() 
+	 * Lager bare 3 tabs rett under
+	 * actionbaren i applikasjonen,
+	 * og setter listeners på de slik
+	 * at hvis de klikker kan ting skje
+	 */
+	private void initializeActionBarTabs() {
+		
+		ActionBar.Tab homeTab = getSupportActionBar().newTab();
+		ActionBar.Tab lastTripsTab = getSupportActionBar().newTab();
+		ActionBar.Tab statisticsTab = getSupportActionBar().newTab();
+		homeTab.setText(this.getString(R.string.homeTabString));
+		lastTripsTab.setText(this.getString(R.string.lastTripsTabString));
+		statisticsTab.setText(this.getString(R.string.statisticTabString));
+		homeTab.setTabListener(this);
+		lastTripsTab.setTabListener(this);
+		statisticsTab.setTabListener(this);
+		getSupportActionBar().addTab(homeTab);
+		getSupportActionBar().addTab(lastTripsTab);
+		getSupportActionBar().addTab(statisticsTab);	
+	}
+	
+
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	
 	public void addListenerOnButton() {
 		 
