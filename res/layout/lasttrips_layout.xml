@@ -5,10 +5,10 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView0"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Window fragment"
+        android:text="Last harr harr Trips layout fragment"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </LinearLayout>

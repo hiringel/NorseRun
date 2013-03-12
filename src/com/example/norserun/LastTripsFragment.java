@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class StatisticsFragment extends SherlockFragment{
+public class LastTripsFragment extends SherlockFragment{
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -16,9 +16,8 @@ public class StatisticsFragment extends SherlockFragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle bundle){
-		Log.d("FromFrag", "Hi from statfrag");
-		return inflater.inflate(R.layout.statistics_layout, group, false);
-		
+		Log.d("FromFrag", "Hi from tripfrag");
+		return inflater.inflate(R.layout.lasttrips_layout, group, false);
 	}
 	
 }

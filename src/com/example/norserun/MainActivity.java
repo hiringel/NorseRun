@@ -23,16 +23,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends SherlockFragmentActivity implements ActionBar.TabListener{
 
 	//Instansiere Button widget
 	Button kartButton;
-	TabHost myTabHost;
-	TabManager myTabManager;
+	HomeFragment homeFrag;
+	StatisticsFragment statFrag;
+	LastTripsFragment tripFrag;
+
 	
 
 
@@ -45,8 +48,11 @@ public class MainActivity extends SherlockFragmentActivity {
 		//Lager tabsa
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
-		InitializeTabs(savedInstanceState);
-		//initializeActionBarTabs();
+
+		initializeActionBarTabs();
+		homeFrag = null;
+		statFrag = null;
+		tripFrag = null;
 
 		
 		
@@ -56,33 +62,8 @@ public class MainActivity extends SherlockFragmentActivity {
 		//addListenerOnButton();
 	}
 	
-	public void InitializeTabs(Bundle savedInstanceState){
-		myTabHost = (TabHost)findViewById(android.R.id.tabhost);
-		myTabHost.setup();
-		
-		myTabManager = new TabManager(this, myTabHost, R.id.realtabcontent);
-		
-		myTabManager.addTab(myTabHost.newTabSpec("Home").setIndicator("Home"),
-				HomeFragment.class, null);
-		
-		myTabManager.addTab(myTabHost.newTabSpec("Last trips").setIndicator("Last trips"),
-				HomeFragment.class, null);
-		
-		myTabManager.addTab(myTabHost.newTabSpec("Statistics").setIndicator("Statistics"),
-				StatisticsFragment.class, null);
-		
-		if(savedInstanceState != null){
-			//Last inn sist brukte tab
-			myTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		}
-	}
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //Lagre sist brukte tab
-    	super.onSaveInstanceState(outState);
-        outState.putString("tab", myTabHost.getCurrentTabTag());
-    }
+
 
 
 	//Dette er for menu-knappen
@@ -105,24 +86,24 @@ public class MainActivity extends SherlockFragmentActivity {
 	 * og setter listeners på de slik
 	 * at hvis de klikker kan ting skje
 	 */
-//	private void initializeActionBarTabs() {
-//		
-//		ActionBar.Tab homeTab = getSupportActionBar().newTab();
-//		ActionBar.Tab lastTripsTab = getSupportActionBar().newTab();
-//		ActionBar.Tab statisticsTab = getSupportActionBar().newTab();
-//		homeTab.setText(this.getString(R.string.homeTabString));
-//		lastTripsTab.setText(this.getString(R.string.lastTripsTabString));
-//		statisticsTab.setText(this.getString(R.string.statisticTabString));
-//		homeTab.setTag(1);
-//		lastTripsTab.setTag(2);
-//		statisticsTab.setTag(3);
-//		homeTab.setTabListener(this);
-//		lastTripsTab.setTabListener(this);
-//		statisticsTab.setTabListener(this);
-//		getSupportActionBar().addTab(homeTab);
-//		getSupportActionBar().addTab(lastTripsTab);
-//		getSupportActionBar().addTab(statisticsTab);	
-//	}
+	private void initializeActionBarTabs() {
+		
+		ActionBar.Tab homeTab = getSupportActionBar().newTab();
+		ActionBar.Tab lastTripsTab = getSupportActionBar().newTab();
+		ActionBar.Tab statisticsTab = getSupportActionBar().newTab();
+		homeTab.setText(this.getString(R.string.homeTabString));
+		lastTripsTab.setText(this.getString(R.string.lastTripsTabString));
+		statisticsTab.setText(this.getString(R.string.statisticTabString));
+		homeTab.setTag(1);
+		lastTripsTab.setTag(2);
+		statisticsTab.setTag(3);
+		homeTab.setTabListener(this);
+		lastTripsTab.setTabListener(this);
+		statisticsTab.setTabListener(this);
+		getSupportActionBar().addTab(homeTab);
+		getSupportActionBar().addTab(lastTripsTab);
+		getSupportActionBar().addTab(statisticsTab);	
+	}
 	
 
 
@@ -153,93 +134,77 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	
 	
-	public static class TabManager implements TabHost.OnTabChangeListener {
-        private final FragmentActivity mActivity;
-        private final TabHost mTabHost;
-        private final int mContainerId;
-        private final HashMap<String, TabInfo> mTabs = new HashMap<String, TabInfo>();
-        TabInfo mLastTab;
 
-        static final class TabInfo {
-            private final String tag;
-            private final Class<?> clss;
-            private final Bundle args;
-            private Fragment fragment;
 
-            TabInfo(String _tag, Class<?> _class, Bundle _args) {
-                tag = _tag;
-                clss = _class;
-                args = _args;
-            }
-        }
 
-        static class DummyTabFactory implements TabHost.TabContentFactory {
-            private final Context mContext;
 
-            public DummyTabFactory(Context context) {
-                mContext = context;
-            }
 
-            @Override
-            public View createTabContent(String tag) {
-                View v = new View(mContext);
-                v.setMinimumWidth(0);
-                v.setMinimumHeight(0);
-                return v;
-            }
-        }
 
-        public TabManager(FragmentActivity activity, TabHost tabHost, int containerId) {
-            mActivity = activity;
-            mTabHost = tabHost;
-            mContainerId = containerId;
-            mTabHost.setOnTabChangedListener(this);
-        }
 
-        public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
-            tabSpec.setContent(new DummyTabFactory(mActivity));
-            String tag = tabSpec.getTag();
 
-            TabInfo info = new TabInfo(tag, clss, args);
 
-            // Check to see if we already have a fragment for this tab, probably
-            // from a previously saved state.  If so, deactivate it, because our
-            // initial state is that a tab isn't shown.
-            info.fragment = mActivity.getSupportFragmentManager().findFragmentByTag(tag);
-            if (info.fragment != null && !info.fragment.isDetached()) {
-                FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
-                ft.detach(info.fragment);
-                ft.commit();
-            }
 
-            mTabs.put(tag, info);
-            mTabHost.addTab(tabSpec);
-        }
 
-        @Override
-        public void onTabChanged(String tabId) {
-            TabInfo newTab = mTabs.get(tabId);
-            if (mLastTab != newTab) {
-                FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
-                if (mLastTab != null) {
-                    if (mLastTab.fragment != null) {
-                        ft.detach(mLastTab.fragment);
-                    }
-                }
-                if (newTab != null) {
-                    if (newTab.fragment == null) {
-                        newTab.fragment = Fragment.instantiate(mActivity,
-                                newTab.clss.getName(), newTab.args);
-                        ft.add(mContainerId, newTab.fragment, newTab.tag);
-                    } else {
-                        ft.attach(newTab.fragment);
-                    }
-                }
+@Override
+public void onTabSelected(Tab tab, FragmentTransaction ft) {
+	
+	switch(Integer.parseInt(tab.getTag().toString())){
+		case 1: 
+			if(homeFrag == null){
+				homeFrag = new HomeFragment();
+				getSupportFragmentManager().beginTransaction().replace(R.id.realtabcontent, homeFrag).commit();
+				Log.d("Fragment", "Added home!");
+			}
+			else
+			{
+			getSupportFragmentManager().beginTransaction().replace(R.id.realtabcontent, homeFrag).commit();
+			Log.d("Fragment", "Replaced to home");
+			}
+			
+			break;
+		case 2:
+			if(tripFrag == null){
+				tripFrag = new LastTripsFragment();
+				getSupportFragmentManager().beginTransaction().replace(R.id.realtabcontent, tripFrag).commit();
+				Log.d("Fragment", "Added trip");
+			}
+			else{
+				getSupportFragmentManager().beginTransaction().replace(R.id.realtabcontent, tripFrag).commit();
+				Log.d("Fragment", "Replaced to trip");
+			}
 
-                mLastTab = newTab;
-                ft.commit();
-                mActivity.getSupportFragmentManager().executePendingTransactions();
-            }
-        }
-    }
+			break;
+		case 3:
+			if(statFrag == null){
+				statFrag = new StatisticsFragment();
+				getSupportFragmentManager().beginTransaction().replace(R.id.realtabcontent, statFrag).commit();
+				Log.d("Fragment", "Added stat");
+			}
+			else{
+				getSupportFragmentManager().beginTransaction().replace(R.id.realtabcontent, statFrag).commit();
+				Log.d("Fragment", "Replaced to stat");
+			}
+	
+			break;
+		default:
+			break;
+			
+
+	}
+	
+
+}
+
+@Override
+public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void onTabReselected(Tab tab, FragmentTransaction ft) {
+	// TODO Auto-generated method stub
+	
+}
 }
