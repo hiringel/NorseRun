@@ -1,5 +1,6 @@
 package com.example.norserun;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.internal.widget.ActionBarView.HomeView;
 
 public class HomeFragment extends SherlockFragment implements OnClickListener{
 	
@@ -50,6 +52,8 @@ public class HomeFragment extends SherlockFragment implements OnClickListener{
 			case R.id.kartButton:
 			{
 				Log.d("Click", "Clicked mapbutton");
+				Intent goToMap = new Intent(this.getView().getContext(), KartActivity.class);
+				startActivity(goToMap);
 				break;
 			}
 		
