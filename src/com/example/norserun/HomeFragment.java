@@ -1,6 +1,7 @@
 package com.example.norserun;
 
 import android.content.Intent;
+import android.media.audiofx.BassBoost.Settings;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,6 +61,7 @@ public class HomeFragment extends SherlockFragment implements OnClickListener{
 			case R.id.settingsButton:
 			{
 				Log.d("Click", "Clicked settingsbutton");
+				startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 				break;
 			}
 		}
