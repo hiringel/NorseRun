@@ -5,9 +5,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="kartButtonString">Gå til Kart</string>
-    <string name="homeTabString">Home</string>
-    <string name="lastTripsTabString">Last Trips</string>
-    <string name="statisticTabString">Statistics</string>
+    <string name="homeTabString">Hjem</string>
+    <string name="lastTripsTabString">Siste turer</string>
+    <string name="statisticTabString">Statistikk</string>
+    <string name="settingsButtonString">Innstillinger</string>
    
     
     
@@ -16,10 +17,11 @@
     <string name="belowIntroTitle1_text">Her er tekst på linje 1</string>
     <string name="belowIntroTitle2_text">Her er tekst på linje 2</string>
     <string name="setupTitle_text">Før du starter</string>
-    <string name="belowSetupTitle1_text">For å kunne bruke denne applikasjonen må du enten ha aktivert GPS eller Mobilt nettverk. Dette er fordi applikasjonen trenger dette for å kunne få posisjonen din! </string>
+    <string name="belowSetupTitle1_text">For å kunne bruke denne applikasjonen må du enten ha aktivert GPS eller Mobilt nettverk. Dette er fordi applikasjonen trenger dette for å kunne få posisjonen din!</string>
     <string name="belowSetupTitle2_text">- Hvis du vil ha mest nøyaktig posisjon vil vi anbefale å aktivere GPS</string>
     <string name="belowSetupTitle3_text">- Hvis du vil ha en mer strømgjerrig posisjon vil vi anbefale å aktivere Mobilt Nettverk</string>
     <string name="belowSetupTitle4_text">- Hvis du bor planlegger å løpe gjennom et tett bebodd område, vil vi anbefale å aktivere begge for å få best mulig signal</string>
+
         
 
 </resources>
