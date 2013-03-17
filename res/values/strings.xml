@@ -9,6 +9,8 @@
     <string name="lastTripsTabString">Siste turer</string>
     <string name="statisticTabString">Statistikk</string>
     <string name="settingsButtonString">Innstillinger</string>
+    <string name="StartTrackingString">Start Tracking</string>
+    <string name="StopTrackingString">Stop Tracking</string>
    
     
     
@@ -21,6 +23,9 @@
     <string name="belowSetupTitle2_text">- Hvis du vil ha mest nøyaktig posisjon vil vi anbefale å aktivere GPS</string>
     <string name="belowSetupTitle3_text">- Hvis du vil ha en mer strømgjerrig posisjon vil vi anbefale å aktivere Mobilt Nettverk</string>
     <string name="belowSetupTitle4_text">- Hvis du bor planlegger å løpe gjennom et tett bebodd område, vil vi anbefale å aktivere begge for å få best mulig signal</string>
+    <string name="duration_static_string">"Duration: "</string>
+    <string name="distance_static_string">"Distance: "</string>
+    <string name="avg_time_per_km_string">Avg Time per Km</string>
 
         
 
