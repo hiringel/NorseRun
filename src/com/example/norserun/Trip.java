@@ -23,7 +23,8 @@ public class Trip {
 	public Trip(String name, String tripType){
 		this.name = name;
 		this.tripType = tripType;
-		//Setdate med en funskjon
+		date = new Time();
+		date.setToNow();
 		this.distance = 0;
 		this.avgSpeed = 0;
 		this.duration = 0;

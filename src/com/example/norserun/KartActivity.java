@@ -1,11 +1,14 @@
 package com.example.norserun;
 
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.view.Menu;
 import no.nkgs.webatlas.android.WALayer;
 import no.nkgs.webatlas.android.WAMapStyle;
 import no.nkgs.webatlas.android.WAMapView;
+import no.nkgs.webatlas.android.WAPositionMarker;
 import no.nkgs.webatlas.android.WASettings;
 
 
@@ -13,6 +16,8 @@ public class KartActivity extends Activity {
 
 	WAMapView mapView;
 	WALayer layer;
+	private LocationManager locationManager;
+	Trip currentTrip;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +28,14 @@ public class KartActivity extends Activity {
         //      Init mapView
         layer = new WALayer(WAMapStyle.VECTOR);
         mapView.addLayer(layer);					//Du må ha et "filter" for at mappet ditt skal vises på skjermen
+        
+        locationManager = (LocationManager) this.getBaseContext().getSystemService(Context.LOCATION_SERVICE);
+        mapView.setPositionMarker(new WAPositionMarker(R.drawable.abs__spinner_48_inner_holo));
+        WASettings.getInstance().setFollowMode(true);
+        
+        
+        
+       currentTrip = new Trip("DummyTrip", "Run");
 	}
 
 //	@Override
@@ -35,6 +48,11 @@ public class KartActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		
+		locationManager.requestLocationUpdates(
+				LocationManager.NETWORK_PROVIDER, 6000, 0.1f, mapView);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				6000, 0.1f, mapView);
  
 		mapView.resume();
 	}
@@ -43,6 +61,7 @@ public class KartActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
  
+		locationManager.removeUpdates(mapView);
 		mapView.pause();
 	}
  
