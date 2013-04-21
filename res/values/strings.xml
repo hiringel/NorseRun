@@ -26,6 +26,8 @@
     <string name="duration_static_string">"Duration: "</string>
     <string name="distance_static_string">"Distance: "</string>
     <string name="avg_time_per_km_string">Avg Time per Km</string>
+    <string name="stop_tracking_string">Stop Tracking</string>
+    <string name="start_tracking_string">Start Tracking</string>
 
         
 

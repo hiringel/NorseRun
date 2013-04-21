@@ -80,20 +80,11 @@
             android:id="@+id/kartet"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
-            android:layout_weight="1.00" />
+            android:layout_weight="0.90" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
-
-            <Button
-                android:id="@+id/mapSettingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/add_new_layer"
-                android:minWidth="64dp" />
 
             <Button
                 android:id="@+id/startTrack"
@@ -101,7 +92,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:text="Button" />
+                android:text="@string/start_tracking_string"
+                 />
 
             <Button
                 android:id="@+id/stopTrack"
@@ -109,7 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/startTrack"
-                android:text="Button" />
+                android:text="@string/stop_tracking_string"
+                 />
 
         </RelativeLayout>
     </LinearLayout>
