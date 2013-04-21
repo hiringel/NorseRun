@@ -32,6 +32,18 @@ public class Trip {
 		this.geoPointArray = new ArrayList<Location>();
 	}
 	
+	public void AddPoint(Location loc){
+		this.geoPointArray.add(loc);
+	}
+	
+	public Location GetLastPoint(){
+		return this.geoPointArray.get(this.geoPointArray.size());
+	}
+	
+	public boolean isListEmpty(){
+		return this.geoPointArray.isEmpty();
+	}
+	
 	
 	
 	

@@ -67,7 +67,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/avgtimeperkmfield"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -86,17 +86,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <ToggleButton
-                android:id="@+id/toggleButtonMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/mapSettingsButton"
-                android:text="ToggleButton"
-                android:textOff="@string/StartTrackingString"
-                android:textOn="@string/StopTrackingString" />
-
             <Button
                 android:id="@+id/mapSettingsButton"
                 android:layout_width="wrap_content"
@@ -105,6 +94,22 @@
                 android:layout_alignParentTop="true"
                 android:background="@drawable/add_new_layer"
                 android:minWidth="64dp" />
+
+            <Button
+                android:id="@+id/startTrack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/stopTrack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/startTrack"
+                android:text="Button" />
 
         </RelativeLayout>
     </LinearLayout>
