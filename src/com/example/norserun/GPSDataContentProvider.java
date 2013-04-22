@@ -20,7 +20,7 @@ public class GPSDataContentProvider extends ContentProvider {
     private static final int DATABASE_VERSION = 2;
     private static final String POINT_TABLE_NAME = "gpspoints";
 
-    public static final String AUTHORITY = "com.ucont";
+    public static final String AUTHORITY = "com.example.norserun.gpsdatacontentprovider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/gpspoint");
     
     /**
