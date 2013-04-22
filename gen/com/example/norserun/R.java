@@ -917,8 +917,9 @@ containing a value of this type.
         public static final int abs__textfield_searchview_holo_light=0x7f02006c;
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
-        public static final int ic_action_overflow=0x7f02006f;
-        public static final int ic_launcher=0x7f020070;
+        public static final int add_new_layer=0x7f02006f;
+        public static final int ic_action_overflow=0x7f020070;
+        public static final int ic_launcher=0x7f020071;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040022;
@@ -961,22 +962,30 @@ containing a value of this type.
         public static final int abs__title=0x7f04001b;
         public static final int abs__titleDivider=0x7f04001c;
         public static final int abs__up=0x7f04000b;
+        public static final int avgtimeperkmfield=0x7f04003b;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040027;
         public static final int homeAsUp=0x7f040006;
         public static final int kartButton=0x7f040033;
-        public static final int kartet=0x7f040035;
+        public static final int kartet=0x7f04003c;
         public static final int listMode=0x7f040002;
-        public static final int menu_settings=0x7f040038;
+        public static final int mainListView=0x7f04003f;
+        public static final int menu_settings=0x7f040040;
         public static final int normal=0x7f040001;
         public static final int realtabcontent=0x01010000;
         public static final int settingsButton=0x7f040034;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
+        public static final int startTrack=0x7f04003d;
+        public static final int stopTrack=0x7f04003e;
         public static final int tabMode=0x7f040003;
-        public static final int textView1=0x7f040037;
+        public static final int textView1=0x7f040035;
         public static final int textView2=0x7f040036;
+        public static final int textView3=0x7f040037;
+        public static final int textView4=0x7f040038;
+        public static final int textView5=0x7f040039;
+        public static final int textView6=0x7f04003a;
         public static final int useLogo=0x7f040004;
         public static final int wrap_content=0x7f040000;
     }
@@ -1014,12 +1023,15 @@ containing a value of this type.
         public static final int lasttrips_layout=0x7f03001b;
         public static final int sherlock_spinner_dropdown_item=0x7f03001c;
         public static final int sherlock_spinner_item=0x7f03001d;
-        public static final int statistics_layout=0x7f03001e;
+        public static final int simplerow=0x7f03001e;
+        public static final int statistics_layout=0x7f03001f;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;
     }
     public static final class string {
+        public static final int StartTrackingString=0x7f090017;
+        public static final int StopTrackingString=0x7f090018;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f090000;
@@ -1066,21 +1078,26 @@ containing a value of this type.
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090009;
         public static final int app_name=0x7f09000f;
-        public static final int belowIntroTitle1_text=0x7f090018;
-        public static final int belowIntroTitle2_text=0x7f090019;
-        public static final int belowSetupTitle1_text=0x7f09001b;
-        public static final int belowSetupTitle2_text=0x7f09001c;
-        public static final int belowSetupTitle3_text=0x7f09001d;
-        public static final int belowSetupTitle4_text=0x7f09001e;
+        public static final int avg_time_per_km_string=0x7f090023;
+        public static final int belowIntroTitle1_text=0x7f09001a;
+        public static final int belowIntroTitle2_text=0x7f09001b;
+        public static final int belowSetupTitle1_text=0x7f09001d;
+        public static final int belowSetupTitle2_text=0x7f09001e;
+        public static final int belowSetupTitle3_text=0x7f09001f;
+        public static final int belowSetupTitle4_text=0x7f090020;
+        public static final int distance_static_string=0x7f090022;
+        public static final int duration_static_string=0x7f090021;
         public static final int hello_world=0x7f090010;
         public static final int homeTabString=0x7f090013;
-        public static final int introTitle_text=0x7f090017;
+        public static final int introTitle_text=0x7f090019;
         public static final int kartButtonString=0x7f090012;
         public static final int lastTripsTabString=0x7f090014;
         public static final int menu_settings=0x7f090011;
         public static final int settingsButtonString=0x7f090016;
-        public static final int setupTitle_text=0x7f09001a;
+        public static final int setupTitle_text=0x7f09001c;
+        public static final int start_tracking_string=0x7f090025;
         public static final int statisticTabString=0x7f090015;
+        public static final int stop_tracking_string=0x7f090024;
     }
     public static final class style {
         /** 

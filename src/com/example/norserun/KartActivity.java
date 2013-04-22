@@ -34,6 +34,8 @@ public class KartActivity extends Activity implements OnClickListener{
 	private Location lastLocation;
 	public static KartActivity dummyActivity;
 	
+	private static final String TAGService = "LOCATION_SERVICE";
+	
 	//Variabler
 	private static final String TAG = "FilterLocation";
 
@@ -54,6 +56,7 @@ public class KartActivity extends Activity implements OnClickListener{
         mapView.addLayer(layer);					//Du må ha et "filter" for at mappet ditt skal vises på skjermen
         
         tripLine = new WAPolyLine();
+        tripLine.setARGB(1, 255, 0, 0);
         drawLayer = new WADrawLayer();
         dummyActivity = this;
         
@@ -104,10 +107,18 @@ public class KartActivity extends Activity implements OnClickListener{
 	}
 	
 	protected void DrawPolyLine(Location location){
-		this.mapView.centerOnCoordinate(new WACoordinate(location.getLongitude(),location.getLatitude(), WACRS.EPSG4326));
 		this.tripLine.addCoordinate(new WACoordinate(location.getLongitude(), location.getLatitude(), WACRS.EPSG4326));
 		this.drawLayer.addPolyLine(tripLine);
-		if(this.firstDraw) this.mapView.addDrawLayer(drawLayer);
+		if(!this.mapView.getDrawLayers().contains(drawLayer))this.mapView.addDrawLayer(drawLayer);
+		Log.d(TAGService, "Drawing..");
+		
+		
+		if(this.firstDraw){
+			Log.d(TAGService, "Drawing first time");
+			this.mapView.centerOnCoordinate(new WACoordinate(location.getLongitude(),location.getLatitude(), WACRS.EPSG4326));
+			
+			firstDraw = false;
+		}
 		
 	}
 
@@ -126,20 +137,20 @@ public class KartActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.startTrack:
 		{	
-			Log.d(TAG, "started tracking");
+			Log.d(TAGService, "started tracking");
 			tracking = true;
 			break;
 		}
 		
 		case R.id.stopTrack:
 		{	
-			Log.d(TAG, "stopped tracking");
+			Log.d(TAGService, "stopped tracking");
 			tracking = false;
 			break;
 		}
 		case R.id.kartet:
 		{
-			Log.d(TAG, "kartet ble klikka");
+			Log.d(TAGService, "kartet ble klikka");
 			break;
 		}
 			

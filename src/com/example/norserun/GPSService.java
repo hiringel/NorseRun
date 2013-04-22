@@ -11,12 +11,13 @@ import android.util.Log;
 
 public class GPSService extends Service implements LocationListener{
 	private static final String TAG = "LOCATION_SERVICE";
-	private static final int TIME_THRESHOLD = 1;  //1sec
+	private static final int TIME_THRESHOLD = 2000;  //2sec
 	private static final int ACCURACY_PERCENT = 10; //%
 	private static final int VELOCITY_THRESHOLD = 100; //m/s
 	
 	
 	private LocationManager locationManager;
+	private Location lastLocation;
 	@Override
 	public IBinder onBind(Intent intent)
 	{
@@ -30,7 +31,7 @@ public class GPSService extends Service implements LocationListener{
 	{
 	// ...
 		Log.d(TAG, "Service, Location has changed");
-		KartActivity.dummyActivity.DrawPolyLine(location);
+		LocationFilter(location);
 	}
 	
 	@Override
@@ -63,7 +64,7 @@ public class GPSService extends Service implements LocationListener{
 		Log.d(TAG, "Service, onstartcommand..");
 		for (String provider : locationManager.getProviders(true))
 		{
-			locationManager.requestLocationUpdates(provider, 0, 0, this);
+			locationManager.requestLocationUpdates(provider, TIME_THRESHOLD, 0, this);
 			Log.d(TAG, "Added provider: "+provider);
 		}
 	return super.onStartCommand(intent, flags, startId);
@@ -76,6 +77,66 @@ public class GPSService extends Service implements LocationListener{
 		super.onDestroy();
 		locationManager.removeUpdates(this);
 	}
+	
+	
+	private void LocationFilter(Location location) {
+		// TODO Auto-generated method stub
+	
+		
+	
+		if(lastLocation == null){
+			Log.d(TAG, "Adding point");
+			//KartActivity.dummyActivity.DrawPolyLine(location);
+			//Add point, draw	
+		}
+		else
+		{
+		float currentAccuracy = location.getAccuracy();
+		float previousAccuracy = lastLocation.getAccuracy();
+
+		float accuracyDifference = Math.abs(previousAccuracy - currentAccuracy);
+					
+		boolean lowerAccuracyAcceptable = 	currentAccuracy > previousAccuracy
+														&& lastLocation.getProvider().equals(location.getProvider())
+														&& (accuracyDifference <= previousAccuracy / ACCURACY_PERCENT);
+					
+		float[] results = new float[1];
+		Location.distanceBetween(lastLocation.getLatitude(),
+		lastLocation.getLongitude(),
+		location.getLatitude(),
+		location.getLongitude(),
+		results);
+		float velocity =
+		results[0] / ((location.getTime() - lastLocation.getTime()) / 1000);
+		
+					
+		// * The velocity seems reasonable (point did not jump)and one of the
+		// following:
+		// * It has a better accuracy
+		// * The app has not accepted a point in TIME_THRESHOLD
+		// * It's worse accuracy is still acceptable
+		if (velocity <= VELOCITY_THRESHOLD
+		&& (currentAccuracy < previousAccuracy
+		|| (location.getTime() - lastLocation.getTime()) > TIME_THRESHOLD
+		|| lowerAccuracyAcceptable))
+		{
+						
+			Log.d(TAG, "Adding point after filter");
+			//KartActivity.dummyActivity.DrawPolyLine(location);
+			//Add point, draw
+					
+		}
+		else
+		{
+						
+			Log.d(TAG, "Ignoring point");
+					
+		}	
+	}
+		
+	lastLocation = location;	
+	}
+
 	
 
 
