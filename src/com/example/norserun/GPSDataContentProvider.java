@@ -22,13 +22,13 @@ public class GPSDataContentProvider extends ContentProvider {
 
     private static final String DATABASE_NAME = "gpsdata.db";
     private static final int DATABASE_VERSION = 2;
-    private static final String POINT_TABLE_NAME = getDateTime();
+    private static final String POINT_TABLE_NAME = "gpspoints";
 
     public static final String AUTHORITY = "com.example.norserun.gpsdatacontentprovider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/gpspoint");
     
     private static String getDateTime(){
-    	String currentDateTimeString = new SimpleDateFormat("HH:mm:ss").format(new Date());
+    	String currentDateTimeString = new SimpleDateFormat("HHmmss").format(new Date());
     	Log.d(TAG, "getDateTime returned" + currentDateTimeString);
     	return currentDateTimeString;
     }
