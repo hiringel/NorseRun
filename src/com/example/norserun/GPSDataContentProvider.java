@@ -1,5 +1,8 @@
 package com.example.norserun;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -10,6 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 public class GPSDataContentProvider extends ContentProvider {
@@ -18,10 +22,16 @@ public class GPSDataContentProvider extends ContentProvider {
 
     private static final String DATABASE_NAME = "gpsdata.db";
     private static final int DATABASE_VERSION = 2;
-    private static final String POINT_TABLE_NAME = "gpspoints";
+    private static final String POINT_TABLE_NAME = getDateTime();
 
     public static final String AUTHORITY = "com.example.norserun.gpsdatacontentprovider";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/gpspoint");
+    
+    private static String getDateTime(){
+    	String currentDateTimeString = new SimpleDateFormat("HH:mm:ss").format(new Date());
+    	Log.d(TAG, "getDateTime returned" + currentDateTimeString);
+    	return currentDateTimeString;
+    }
     
     /**
      * This class helps open, create, and upgrade the database file.
