@@ -27,7 +27,7 @@ public class ReminderListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reminder_list);
+        setContentView(R.layout.lasttrips_layout);
         mDbHelper = new RemindersDbAdapter(this);
         mDbHelper.open();
         fillData();

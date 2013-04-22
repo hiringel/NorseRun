@@ -160,14 +160,18 @@ public class GPSService extends Service implements LocationListener{
 	public static void stopTracking(){
 		Log.d(TAG, "Stopped tracking");
 		isTracking = false;
+		createDbTuple(listloc);
 		if(!listloc.isEmpty()) 		KartActivity.dummyActivity.DrawTheRoute(listloc);
+		
 
 		//Kick the draw and read from db
+		
 	}
 
 	private void onLocationChangedDB(Location loc) {
 	     Log.e(TAG, loc.toString());
 	     listloc.add(loc);
+	     
 
 	     ContentValues values = new ContentValues();
 	   
@@ -177,6 +181,22 @@ public class GPSService extends Service implements LocationListener{
 	     getContentResolver().insert(GPSDataContentProvider.CONTENT_URI, values);
 	   }
 	
+	public static void createDbTuple(List<Location> loclist){
+		String lat = "";
+		String lon = "";
+		String time = "";
+		
+		for(Location loc : loclist){
+			lat += (loc.getLatitude()+" ");
+			lon += (loc.getLongitude()+ " ");
+			time += (loc.getTime()+ " ");
+		}
+		
+		Log.d(TAG, lat);
+		
+//		RemindersDbAdapter lol = new RemindersDbAdapter(getApplicationContext());
+//	    lol.createReminder(title, latitude, longtitude, pointTime, reminderDateTime);
+	}
 
 
 }
