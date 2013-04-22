@@ -1,5 +1,7 @@
 package com.example.norserun;
 
+import java.util.List;
+
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -119,6 +121,16 @@ public class KartActivity extends Activity implements OnClickListener{
 			
 			firstDraw = false;
 		}
+		
+	}
+	
+	protected void DrawTheRoute(List<Location> lol){
+		
+		for(Location loc : lol){
+			tripLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
+		}
+		drawLayer.addPolyLine(tripLine);
+		mapView.addDrawLayer(drawLayer);
 		
 	}
 
