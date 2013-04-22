@@ -1,6 +1,7 @@
 package com.example.norserun;
 
 import android.app.Service;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -87,7 +88,7 @@ public class GPSService extends Service implements LocationListener{
 		if(lastLocation == null){
 			Log.d(TAG, "Adding point");
 			//KartActivity.dummyActivity.DrawPolyLine(location);
-			//Add point, draw	
+			onLocationChangedDB(location);	
 		}
 		else
 		{
@@ -123,7 +124,7 @@ public class GPSService extends Service implements LocationListener{
 						
 			Log.d(TAG, "Adding point after filter");
 			//KartActivity.dummyActivity.DrawPolyLine(location);
-			//Add point, draw
+			onLocationChangedDB(location);
 					
 		}
 		else
@@ -137,6 +138,16 @@ public class GPSService extends Service implements LocationListener{
 	lastLocation = location;	
 	}
 
+	private void onLocationChangedDB(Location loc) {
+	     Log.e(TAG, loc.toString());
+
+	     ContentValues values = new ContentValues();
+	   
+	     values.put(GPSData.GPSPoint.LONGITUDE, loc.getLongitude());
+	        values.put(GPSData.GPSPoint.LATITUDE, loc.getLatitude());
+	        values.put(GPSData.GPSPoint.TIME, loc.getTime());
+	     getContentResolver().insert(GPSDataContentProvider.CONTENT_URI, values);
+	   }
 	
 
 
