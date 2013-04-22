@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import no.nkgs.webatlas.android.WACRS;
 import no.nkgs.webatlas.android.WACoordinate;
@@ -50,6 +51,11 @@ public class KartActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kartet);
 		startService(new Intent(KartActivity.this, GPSService.class));
+		
+		Button startTracking = (Button)findViewById(R.id.startTrack);
+		Button stopTracking = (Button)findViewById(R.id.stopTrack);
+		startTracking.setOnClickListener(this);
+		stopTracking.setOnClickListener(this);
 		
 		mapView = (WAMapView) findViewById(R.id.kartet);
         WASettings.getInstance().setTilesFadeIn(true);    //Denne er valgfri men visuelt penere
@@ -131,6 +137,8 @@ public class KartActivity extends Activity implements OnClickListener{
 		}
 		drawLayer.addPolyLine(tripLine);
 		mapView.addDrawLayer(drawLayer);
+		mapView.centerOnCoordinate(new WACoordinate(lol.get(0).getLongitude(),lol.get(0).getLatitude(), WACRS.EPSG4326));
+		
 		
 	}
 
@@ -149,15 +157,15 @@ public class KartActivity extends Activity implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.startTrack:
 		{	
-			Log.d(TAGService, "started tracking");
-			tracking = true;
+			Log.d(TAG, "started tracking");
+			GPSService.startTracking();
 			break;
 		}
 		
 		case R.id.stopTrack:
 		{	
-			Log.d(TAGService, "stopped tracking");
-			tracking = false;
+			Log.d(TAG, "stopped tracking");
+			GPSService.stopTracking();
 			break;
 		}
 		case R.id.kartet:

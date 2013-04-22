@@ -1,5 +1,8 @@
 package com.example.norserun;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Service;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -19,6 +22,14 @@ public class GPSService extends Service implements LocationListener{
 	
 	private LocationManager locationManager;
 	private Location lastLocation;
+	private static boolean isTracking = false;
+	
+	
+	//Fjern meg etter test
+	private static List<Location> listloc;
+	
+
+	
 	@Override
 	public IBinder onBind(Intent intent)
 	{
@@ -32,7 +43,9 @@ public class GPSService extends Service implements LocationListener{
 	{
 	// ...
 		Log.d(TAG, "Service, Location has changed");
+		if(isTracking){
 		LocationFilter(location);
+		}
 	}
 	
 	@Override
@@ -58,6 +71,7 @@ public class GPSService extends Service implements LocationListener{
 	{
 	super.onCreate();
 	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+	listloc = new ArrayList<Location>();
 	}
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
@@ -137,9 +151,23 @@ public class GPSService extends Service implements LocationListener{
 		
 	lastLocation = location;	
 	}
+	
+	public static void startTracking(){
+		Log.d(TAG, "Started tracking");
+		isTracking = true;
+	}
+	
+	public static void stopTracking(){
+		Log.d(TAG, "Stopped tracking");
+		isTracking = false;
+		if(!listloc.isEmpty()) 		KartActivity.dummyActivity.DrawTheRoute(listloc);
+
+		//Kick the draw and read from db
+	}
 
 	private void onLocationChangedDB(Location loc) {
 	     Log.e(TAG, loc.toString());
+	     listloc.add(loc);
 
 	     ContentValues values = new ContentValues();
 	   
