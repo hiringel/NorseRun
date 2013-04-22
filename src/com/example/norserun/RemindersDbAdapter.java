@@ -26,7 +26,9 @@ public class RemindersDbAdapter {
     private static final int DATABASE_VERSION = 3;
     
 	public static final String KEY_TITLE = "title";
-    public static final String KEY_BODY = "body";
+    public static final String KEY_LAT = "latitude";
+    public static final String KEY_LONG = "longtitude";
+    public static final String KEY_TIME = "pointTime";
     public static final String KEY_DATE_TIME = "reminder_date_time"; 
     public static final String KEY_ROWID = "_id";
     
@@ -42,7 +44,9 @@ public class RemindersDbAdapter {
             "create table " + DATABASE_TABLE + " ("
             		+ KEY_ROWID + " integer primary key autoincrement, "
                     + KEY_TITLE + " text not null, " 
-                    + KEY_BODY + " text not null, " 
+                    + KEY_LAT + " text not null, "
+                    + KEY_LONG + " text not null, "
+                    + KEY_TIME + " text not null, "
                     + KEY_DATE_TIME + " text not null);"; 
 
     
@@ -110,10 +114,12 @@ public class RemindersDbAdapter {
      * @param reminderDateTime the date and time the reminder should remind the user
      * @return rowId or -1 if failed
      */
-    public long createReminder(String title, String body, String reminderDateTime) {
+    public long createReminder(String title, String latitude, String longtitude, String pointTime, String reminderDateTime) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_TITLE, title);
-        initialValues.put(KEY_BODY, body);
+        initialValues.put(KEY_LAT, latitude);
+        initialValues.put(KEY_LONG, longtitude);
+        initialValues.put(KEY_TIME, pointTime);
         initialValues.put(KEY_DATE_TIME, reminderDateTime); 
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
@@ -138,7 +144,7 @@ public class RemindersDbAdapter {
     public Cursor fetchAllReminders() {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE,
-                KEY_BODY, KEY_DATE_TIME}, null, null, null, null, null);
+        		KEY_LAT, KEY_LONG, KEY_TIME, KEY_DATE_TIME}, null, null, null, null, null);
     }
 
     /**
@@ -153,7 +159,7 @@ public class RemindersDbAdapter {
         Cursor mCursor =
 
                 mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                        KEY_TITLE, KEY_BODY, KEY_DATE_TIME}, KEY_ROWID + "=" + rowId, null,
+                        KEY_TITLE, KEY_LAT, KEY_LONG, KEY_TIME, KEY_DATE_TIME}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -173,10 +179,12 @@ public class RemindersDbAdapter {
      * @param reminderDateTime value to set the reminder time. 
      * @return true if the reminder was successfully updated, false otherwise
      */
-    public boolean updateReminder(long rowId, String title, String body, String reminderDateTime) {
+    public boolean updateReminder(long rowId, String title, String latitude, String longtitude, String pointTime, String reminderDateTime) {
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
-        args.put(KEY_BODY, body);
+        args.put(KEY_LAT, latitude);
+        args.put(KEY_LONG, longtitude);
+        args.put(KEY_TIME, pointTime);
         args.put(KEY_DATE_TIME, reminderDateTime);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
