@@ -1,6 +1,8 @@
 package com.example.norserun;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.app.Service;
@@ -194,8 +196,7 @@ public class GPSService extends Service implements LocationListener{
 		
 		Log.d(TAG, lat);
 		
-//		RemindersDbAdapter lol = new RemindersDbAdapter(getApplicationContext());
-//	    lol.createReminder(title, latitude, longtitude, pointTime, reminderDateTime);
+		KartActivity.dummyActivity.db.createReminder("titleTest"+new SimpleDateFormat("HH-mm-ss").format(new Date()), lat, lon, time, "reminderDateTimeTest");
 	}
 
 

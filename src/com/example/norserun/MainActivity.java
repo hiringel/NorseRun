@@ -35,6 +35,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	HomeFragment homeFrag;
 	StatisticsFragment statFrag;
 	LastTripsFragment tripFrag;
+	public static int tripChosenInt;
 
 	
 
@@ -44,6 +45,7 @@ public class MainActivity extends SherlockFragmentActivity implements ActionBar.
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		tripChosenInt = -1;
 		
 		//Lager tabsa
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

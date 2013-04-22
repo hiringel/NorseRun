@@ -922,6 +922,7 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020071;
     }
     public static final class id {
+        public static final int StatisticsText=0x7f040040;
         public static final int abs__action_bar=0x7f040022;
         public static final int abs__action_bar_container=0x7f040021;
         public static final int abs__action_bar_subtitle=0x7f040011;
@@ -969,7 +970,7 @@ containing a value of this type.
         public static final int kartButton=0x7f040033;
         public static final int kartet=0x7f04003c;
         public static final int listMode=0x7f040002;
-        public static final int menu_settings=0x7f040040;
+        public static final int menu_settings=0x7f040041;
         public static final int normal=0x7f040001;
         public static final int realtabcontent=0x01010000;
         public static final int settingsButton=0x7f040034;

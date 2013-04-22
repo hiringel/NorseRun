@@ -37,42 +37,9 @@ public class RemindersDbAdapter {
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
     
-    /**
-     * Database creation SQL statement
-     */
-    private static final String DATABASE_CREATE =
-            "create table " + DATABASE_TABLE + " ("
-            		+ KEY_ROWID + " integer primary key autoincrement, "
-                    + KEY_TITLE + " text not null, " 
-                    + KEY_LAT + " text not null, "
-                    + KEY_LONG + " text not null, "
-                    + KEY_TIME + " text not null, "
-                    + KEY_DATE_TIME + " text not null);"; 
-
     
 
     private final Context mCtx;
-
-    private static class DatabaseHelper extends SQLiteOpenHelper {
-
-        DatabaseHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-
-            db.execSQL(DATABASE_CREATE);
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-                    + newVersion + ", which will destroy all old data");
-            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
-            onCreate(db);
-        }
-    }
 
     /**
      * Constructor - takes the context to allow the database to be
@@ -82,6 +49,44 @@ public class RemindersDbAdapter {
      */
     public RemindersDbAdapter(Context ctx) {
         this.mCtx = ctx;
+        Log.d("LOCATION_SERVICE", "RemindersDbAdapter Constructor!!!!!!!!");
+        mDbHelper = new DatabaseHelper(mCtx);
+    }
+    
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+    	
+    	  /**
+         * Database creation SQL statement
+         */
+
+        private static final String DATABASE_CREATE =
+                "create table " + DATABASE_TABLE + " ("
+                		+ KEY_ROWID + " integer primary key autoincrement, "
+                        + KEY_TITLE + " text not null, " 
+                        + KEY_LAT + " text not null, "
+                        + KEY_LONG + " text not null, "
+                        + KEY_TIME + " text not null, "
+                        + KEY_DATE_TIME + " text not null);"; 
+
+        public DatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+          }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+        	Log.d("LOCATION_SERVICE", "Instanciating DB!!!!!!!!");
+
+            db.execSQL(DATABASE_CREATE);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        	 Log.d("LOCATION_SERVICE", "Upgrading database!!!!!!!!");
+        	Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
+            db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+            onCreate(db);
+        }
     }
 
     /**
@@ -94,8 +99,9 @@ public class RemindersDbAdapter {
      * @throws SQLException if the database could be neither opened or created
      */
     public RemindersDbAdapter open() throws SQLException {
-        mDbHelper = new DatabaseHelper(mCtx);
         mDb = mDbHelper.getWritableDatabase();
+        Log.d("LOCATION_SERVICE", "getWritableDatabase run!!!!!!!!");
+        Log.d("LOCATION_SERVICE", this.toString()+"!!!!");
         return this;
     }
     

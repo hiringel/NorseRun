@@ -105,18 +105,15 @@ public class LastTripsFragment extends SherlockListFragment{
 	 * @see android.support.v4.app.Fragment#onStart()
 	 */
 	
-	private class ListClickHandler implements OnItemClickListener{
-
-		@Override
-		public void onItemClick(AdapterView<?> Adapter, View view, int positionClicked,
-				long arg3) {
-			// TODO Auto-generated method stub
-			
-			Toast.makeText(getSherlockActivity().getApplicationContext(), "Position clicked: "+ positionClicked, Toast.LENGTH_SHORT).show();
-			
-		}
-		
-	}
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Log.d("LOCATION_SERVICE", "Pressed: "+id);
+        MainActivity.tripChosenInt = (int)id;
+//        Intent i = new Intent(this, ReminderEditActivit.class);
+//        i.putExtra(RemindersDbAdapter.KEY_ROWID, id);
+//        startActivityForResult(i, ACTIVITY_EDIT); 
+    }
 	
 	
 	

@@ -36,6 +36,7 @@ public class KartActivity extends Activity implements OnClickListener{
 	WADrawLayer drawLayer;
 	private Location lastLocation;
 	public static KartActivity dummyActivity;
+	public RemindersDbAdapter db;
 	
 	private static final String TAGService = "LOCATION_SERVICE";
 	
@@ -67,6 +68,9 @@ public class KartActivity extends Activity implements OnClickListener{
         tripLine.setARGB(1, 255, 0, 0);
         drawLayer = new WADrawLayer();
         dummyActivity = this;
+        
+        db = new RemindersDbAdapter(this);
+        db.open();
         
         
         
@@ -143,11 +147,6 @@ public class KartActivity extends Activity implements OnClickListener{
 	}
 
 
-
-
-
-
-	
 	
 	//Onclick implementation
 	@Override
