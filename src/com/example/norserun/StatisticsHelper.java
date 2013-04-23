@@ -9,15 +9,22 @@ import android.util.Log;
 public class StatisticsHelper {
 
 	
-	public static double GetDistance(List<Location> loclist){
+	public static double GetDistance(List<Posisjon> loclist){
 		double totalDistance = 0;
-		Location lastLoc = null;
+		Location A = new Location("start");
+		Location B = new Location("end");
 		
-		if(loclist.isEmpty()) return 0;
 		
-		for(Location loc : loclist){
+		if(loclist.isEmpty()) return -1;
+		Posisjon lastLoc = loclist.get(0);
+		for(Posisjon loc : loclist){
 			if(!(lastLoc == null)){
-				totalDistance += Math.sqrt(Math.pow((loc.getLatitude() - lastLoc.getLatitude()),2)	+	Math.pow((loc.getLongitude() - lastLoc.getLongitude()),2));
+				A.setLatitude(lastLoc.getLatitude());
+				A.setLongitude(lastLoc.getLongitude());
+				B.setLatitude(loc.getLatitude());
+				B.setLongitude(loc.getLongitude());
+				totalDistance += A.distanceTo(B);
+				lastLoc = loc;
 			}
 		}
 		
@@ -25,50 +32,40 @@ public class StatisticsHelper {
 		
 	}
 	
-	public static double GetAverageSpeed(List<Location> loclist){
-		if(loclist.isEmpty()) return 0;
+	public static double GetAverageSpeed(List<Posisjon> loclist){
+		if(loclist.isEmpty()) return -1;
 		
-		Location firstLoc = loclist.get(0);
-		Location lastLoc = loclist.get(loclist.size()-1);
+		Posisjon firstLoc = loclist.get(0);
+		Posisjon lastLoc = loclist.get(loclist.size()-1);
 		
 		double time = (lastLoc.getTime() - firstLoc.getTime())/1000;
 		
 		double dist = GetDistance(loclist);
 		
-		return dist/time;
+		return 3.6*dist/time;
 		
 		
 	}
 	
 	public static List<Posisjon> StringDeserializer(String lat, String lon, String time){
 		// TO-DO: Lage en deserializer av de 3 stringsa 
-		String latSub;
-		String lonSub;
-		String timeSub;
 		Posisjon dummyPosisjon;
 		List<Posisjon> returnList = new ArrayList<Posisjon>();
 		
+		String[] latSeparatedList = lat.split(" ");
+		String[] lonSeparatedList = lon.split(" ");
+		String[] timeSeparatedList = time.split(" ");
+		
 		if(lat.length() < 1) return null;
 		Log.d("TestString", "kom inn i funksjonen...");
-		while(lat.contains(" ") && lat.contains(".")){
-			
-			
-			
-			
-//			latSub = lat.substring(0, lat.indexOf(" "));
-//			lat = lat.substring(lat.indexOf(" ") + 1);
-////			Log.d("TestString", "Parsa lat..." + latSub);
-//			lonSub = lon.substring(0, lon.indexOf(" "));
-//			lon = lon.substring(lon.indexOf(" ") + 1);
-////			Log.d("TestString", "Parsa lon..." + lonSub);
-//			timeSub = time.substring(0, time.indexOf(" "));
-//			time = time.substring(time.indexOf(" ") + 1);
-			
 
-//			Log.d("TestString", "Parsa Time..."+ timeSub);
-			dummyPosisjon = new Posisjon(latSub, lonSub, timeSub);
-			Log.d("TestString", dummyPosisjon.toString());
+		int i = 0;
+		for(String latSeperated : latSeparatedList){
+			dummyPosisjon = new Posisjon(latSeperated, lonSeparatedList[i], timeSeparatedList[i]);
 			returnList.add(dummyPosisjon);
+			i++;
+			Log.d("POSISJON", dummyPosisjon.toString());
+			if(i==latSeparatedList.length) break;
 		}
 		
 		

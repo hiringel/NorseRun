@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
@@ -75,6 +76,10 @@ public class StatisticsFragment extends SherlockFragment{
 			longtFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_LONG));
 			timeFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_TIME));
 			Log.d(SQL_TAG, "Strings: " + nameFromDb + latFromDb + longtFromDb + timeFromDb);
+			
+			List<Posisjon> liste = StatisticsHelper.StringDeserializer(latFromDb, longtFromDb, timeFromDb);
+			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetAverageSpeed(liste)));
+			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetDistance(liste)));
 			}
 			catch (Exception e){
 				Log.d(SQL_TAG, "Exception: "+e.toString()+ "       StackTrace = "+e.getStackTrace()+"   nameFromDb = "+nameFromDb);

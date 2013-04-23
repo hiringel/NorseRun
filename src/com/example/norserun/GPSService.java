@@ -17,9 +17,9 @@ import android.util.Log;
 
 public class GPSService extends Service implements LocationListener{
 	private static final String TAG = "LOCATION_SERVICE";
-	private static final int TIME_THRESHOLD = 2000;  //2sec
+	private static final int TIME_THRESHOLD = 1000;  //1sec
 	private static final int ACCURACY_PERCENT = 10; //%
-	private static final int VELOCITY_THRESHOLD = 100; //m/s
+	private static final int VELOCITY_THRESHOLD = 50; //m/s
 	
 	
 	private LocationManager locationManager;
