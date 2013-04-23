@@ -171,7 +171,8 @@ public class RemindersDbAdapter {
             mCursor.moveToFirst();
         }
         return mCursor;
-
+    	
+    	
     }
 
     /**

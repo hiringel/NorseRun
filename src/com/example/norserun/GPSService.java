@@ -160,11 +160,12 @@ public class GPSService extends Service implements LocationListener{
 	}
 	
 	public static void stopTracking(){
+		if(isTracking){
 		Log.d(TAG, "Stopped tracking");
 		isTracking = false;
 		createDbTuple(listloc);
 		if(!listloc.isEmpty()) 		KartActivity.dummyActivity.DrawTheRoute(listloc);
-		
+		}
 
 		//Kick the draw and read from db
 		
@@ -196,7 +197,7 @@ public class GPSService extends Service implements LocationListener{
 		
 		Log.d(TAG, lat);
 		
-		KartActivity.dummyActivity.db.createReminder("titleTest"+new SimpleDateFormat("HH-mm-ss").format(new Date()), lat, lon, time, "reminderDateTimeTest");
+		KartActivity.dummyActivity.db.createReminder(new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(new Date()), lat, lon, time, "reminderDateTimeTest");
 	}
 
 

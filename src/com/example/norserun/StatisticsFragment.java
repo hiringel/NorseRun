@@ -17,12 +17,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 public class StatisticsFragment extends SherlockFragment{
 	
+	private static final String SQL_TAG = "SQL_TAG";
+	RemindersDbAdapter mDbHelper;
+	String nameFromDb;
+	String latFromDb;
+	String longtFromDb;
+	String timeFromDb;
+	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		
 	}
 	
 	
@@ -32,15 +41,63 @@ public class StatisticsFragment extends SherlockFragment{
 		Log.d("FromFrag", "Hi from statfrag");
 		return inflater.inflate(R.layout.statistics_layout, group, false);
 		
+		
 	}
 	
+	
+	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
+		mDbHelper = new RemindersDbAdapter(this.getSherlockActivity());
+        mDbHelper.open();
+		
 		if(MainActivity.tripChosenInt == -1){
 		TextView text = (TextView) getSherlockActivity().findViewById(R.id.StatisticsText);
 		text.setText("No trip chosen");
+		
+        
 		}
+		
+		else{
+			try {
+			Log.d(SQL_TAG, "tripChosenInt = " + String.valueOf(MainActivity.tripChosenInt));
+			
+			Log.d(SQL_TAG, "(long)MainActivity.tripChosenInt = " +(long)MainActivity.tripChosenInt);
+			
+			Cursor reminder = mDbHelper.fetchReminder((long)MainActivity.tripChosenInt);
+			
+			 getSherlockActivity().startManagingCursor(reminder);
+			Log.d(SQL_TAG, "reminder = " +reminder.toString());
+			nameFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_TITLE));
+			latFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_LAT));
+			longtFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_LONG));
+			timeFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_TIME));
+			Log.d(SQL_TAG, "Strings: " + nameFromDb + latFromDb + longtFromDb + timeFromDb);
+			}
+			catch (Exception e){
+				Log.d(SQL_TAG, "Exception: "+e.toString()+ "       StackTrace = "+e.getStackTrace()+"   nameFromDb = "+nameFromDb);
+			}
+			
+		}
+		
+//		private void fillData() {
+//	        Cursor remindersCursor = mDbHelper.fetchAllReminders();
+//	        getSherlockActivity().startManagingCursor(remindersCursor);
+//	        
+//	        // Create an array to specify the fields we want to display in the list (only TITLE)
+//	        String[] from = new String[]{RemindersDbAdapter.KEY_TITLE};
+//	        
+//	        // and an array of the fields we want to bind those fields to (in this case just text1)
+//	        int[] to = new int[]{R.id.text1};
+//	        
+//	        // Now create a simple cursor adapter and set it to display
+//	        SimpleCursorAdapter reminders = 
+//	        	    new SimpleCursorAdapter(getSherlockActivity(), R.layout.reminder_row, remindersCursor, from, to);
+//	        setListAdapter(reminders);
+//	    }
+		
 		/*	// Only populate the text boxes and change the calendar date
     	// if the row is not null from the database. 
         if (mRowId != null) {
@@ -82,5 +139,7 @@ public class StatisticsFragment extends SherlockFragment{
         updateDateButtonText(); 
         updateTimeButtonText(); */
 	}
+	
+	
 	
 }

@@ -66,6 +66,7 @@ public class LastTripsFragment extends SherlockListFragment{
 		View lastTripFragment = inflater.inflate(R.layout.lasttrips_layout, group, false);
 		return inflater.inflate(R.layout.lasttrips_layout, group, false);
 	}
+	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState){
 		Log.d("FromFrag", "onviewcreated");
