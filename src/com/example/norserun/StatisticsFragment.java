@@ -222,7 +222,6 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
 		case R.id.DrawRouteButton:{
 			Log.d(SQL_TAG, "Draw was clicked..");
 			Intent goToDrawMap = new Intent(this.getView().getContext(), KartDrawActivity.class);
-			sendList = liste;
 			startActivity(goToDrawMap);
 			//TO-DO Create new activity and draw
 			break;
