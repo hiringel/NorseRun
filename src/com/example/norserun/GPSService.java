@@ -25,6 +25,7 @@ public class GPSService extends Service implements LocationListener{
 	private LocationManager locationManager;
 	private Location lastLocation;
 	private static boolean isTracking = false;
+	private static boolean hasJumpedToFirst = false;
 	
 	
 	//Fjern meg etter test
@@ -73,11 +74,12 @@ public class GPSService extends Service implements LocationListener{
 	{
 	super.onCreate();
 	locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-	listloc = new ArrayList<Location>();
+//	listloc = new ArrayList<Location>();
 	}
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
+		listloc = new ArrayList<Location>();
 		Log.d(TAG, "Service, onstartcommand..");
 		for (String provider : locationManager.getProviders(true))
 		{
@@ -93,6 +95,7 @@ public class GPSService extends Service implements LocationListener{
 		Log.d(TAG, "Service destroyed");
 		super.onDestroy();
 		locationManager.removeUpdates(this);
+		
 	}
 	
 	
@@ -164,7 +167,12 @@ public class GPSService extends Service implements LocationListener{
 		Log.d(TAG, "Stopped tracking");
 		isTracking = false;
 		createDbTuple(listloc);
-		if(!listloc.isEmpty()) 		KartActivity.dummyActivity.DrawTheRoute(listloc);
+		
+
+		if(!listloc.isEmpty()){
+			
+			KartActivity.dummyActivity.DrawTheRoute(listloc);
+		}
 		}
 
 		//Kick the draw and read from db
@@ -172,16 +180,20 @@ public class GPSService extends Service implements LocationListener{
 	}
 
 	private void onLocationChangedDB(Location loc) {
-	     Log.e(TAG, loc.toString());
+	     Log.d(TAG, loc.toString());
 	     listloc.add(loc);
 	     
-
-	     ContentValues values = new ContentValues();
-	   
-	     values.put(GPSData.GPSPoint.LONGITUDE, loc.getLongitude());
-	        values.put(GPSData.GPSPoint.LATITUDE, loc.getLatitude());
-	        values.put(GPSData.GPSPoint.TIME, loc.getTime());
-	     getContentResolver().insert(GPSDataContentProvider.CONTENT_URI, values);
+	     if(hasJumpedToFirst == false){
+	    	 KartActivity.dummyActivity.jumpToFirst(loc);
+	    	 hasJumpedToFirst = true;
+	     }
+	     
+//	     ContentValues values = new ContentValues();
+//	   
+//	     values.put(GPSData.GPSPoint.LONGITUDE, loc.getLongitude());
+//	        values.put(GPSData.GPSPoint.LATITUDE, loc.getLatitude());
+//	        values.put(GPSData.GPSPoint.TIME, loc.getTime());
+//	     getContentResolver().insert(GPSDataContentProvider.CONTENT_URI, values);
 	   }
 	
 	public static void createDbTuple(List<Location> loclist){

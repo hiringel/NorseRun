@@ -2,6 +2,7 @@ package com.example.norserun;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockFragment;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,12 +18,14 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
+import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-public class StatisticsFragment extends SherlockFragment{
+public class StatisticsFragment extends SherlockFragment implements OnClickListener{
 	
 	private static final String SQL_TAG = "SQL_TAG";
 	RemindersDbAdapter mDbHelper;
@@ -29,6 +33,17 @@ public class StatisticsFragment extends SherlockFragment{
 	String latFromDb;
 	String longtFromDb;
 	String timeFromDb;
+	TextView speedText;
+	TextView distanceText;
+	TextView titleText;
+	TextView distTextStatic;
+	TextView speedTextStatic;
+	Button drawButton;
+	Button deleteButton;
+	TextView text;
+	List<Posisjon> liste;
+	public static List<Posisjon> sendList;
+	
 	
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -40,7 +55,13 @@ public class StatisticsFragment extends SherlockFragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup group, Bundle bundle){
 		Log.d("FromFrag", "Hi from statfrag");
-		return inflater.inflate(R.layout.statistics_layout, group, false);
+		View statisticsFragment = inflater.inflate(R.layout.statistics_layout, group, false);
+		statisticsFragment.findViewById(R.id.DrawRouteButton).setOnClickListener(this);
+		statisticsFragment.findViewById(R.id.DeleteButton).setOnClickListener(this);
+		liste = new ArrayList<Posisjon>();
+		
+		return statisticsFragment;
+
 		
 		
 	}
@@ -53,10 +74,27 @@ public class StatisticsFragment extends SherlockFragment{
 		super.onActivityCreated(savedInstanceState);
 		mDbHelper = new RemindersDbAdapter(this.getSherlockActivity());
         mDbHelper.open();
+        
+        speedText = (TextView)getView().findViewById(R.id.StatisticsSpeedInput);
+        titleText = (TextView)getView().findViewById(R.id.StatisticsTitle);
+        distanceText = (TextView)getView().findViewById(R.id.StatisticsDistanceInput);
+        distTextStatic = (TextView)getView().findViewById(R.id.StatisticsDistance);
+        speedTextStatic = (TextView)getView().findViewById(R.id.StatisticsSpeed);
+        
+        drawButton = (Button)getView().findViewById(R.id.DrawRouteButton);
+        deleteButton = (Button)getView().findViewById(R.id.DeleteButton);
+        
+        drawButton.setVisibility(View.VISIBLE);
+        deleteButton.setVisibility(View.VISIBLE);
+        speedText.setVisibility(View.VISIBLE);
+        titleText.setVisibility(View.VISIBLE);
+        distanceText.setVisibility(View.VISIBLE);
+        distTextStatic.setVisibility(View.VISIBLE);
+        speedTextStatic.setVisibility(View.VISIBLE);
+
 		
 		if(MainActivity.tripChosenInt == -1){
-		TextView text = (TextView) getSherlockActivity().findViewById(R.id.StatisticsText);
-		text.setText("No trip chosen");
+			this.noRemindersShow();
 		
         
 		}
@@ -77,9 +115,12 @@ public class StatisticsFragment extends SherlockFragment{
 			timeFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_TIME));
 			Log.d(SQL_TAG, "Strings: " + nameFromDb + latFromDb + longtFromDb + timeFromDb);
 			
-			List<Posisjon> liste = StatisticsHelper.StringDeserializer(latFromDb, longtFromDb, timeFromDb);
-			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetAverageSpeed(liste)));
-			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetDistance(liste)));
+			liste = StatisticsHelper.StringDeserializer(latFromDb, longtFromDb, timeFromDb);
+			speedText.setText(String.valueOf(StatisticsHelper.GetAverageSpeed(liste))+" Km/timen");
+			distanceText.setText(String.valueOf(StatisticsHelper.GetDistance(liste))+" meter");
+			titleText.setText(nameFromDb);
+//			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetAverageSpeed(liste)));
+//			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetDistance(liste)));
 			}
 			catch (Exception e){
 				Log.d(SQL_TAG, "Exception: "+e.toString()+ "       StackTrace = "+e.getStackTrace()+"   nameFromDb = "+nameFromDb);
@@ -143,6 +184,52 @@ public class StatisticsFragment extends SherlockFragment{
         
         updateDateButtonText(); 
         updateTimeButtonText(); */
+	}
+	
+	private void noRemindersShow(){
+		text = (TextView) getSherlockActivity().findViewById(R.id.StatisticsText);
+		text.setText("Ingen tur valgt!");
+        speedText.setVisibility(View.GONE);
+        titleText.setVisibility(View.GONE);
+        distanceText.setVisibility(View.GONE);
+        distTextStatic.setVisibility(View.GONE);
+        speedTextStatic.setVisibility(View.GONE);
+        drawButton.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.GONE);
+	}
+	
+	public void onStop(){
+		super.onStop();
+		mDbHelper.close();
+	}
+
+
+
+	@Override
+	public void onClick(View v) {
+		Log.d(SQL_TAG, "Something was clicked..");
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.DeleteButton:{
+			Log.d(SQL_TAG, "Deleting..");
+			this.noRemindersShow();
+			mDbHelper.deleteReminder(MainActivity.tripChosenInt);
+			MainActivity.tripChosenInt = -1;
+			//TO-DO: Delete
+			break;
+		}
+			
+		case R.id.DrawRouteButton:{
+			Log.d(SQL_TAG, "Draw was clicked..");
+			Intent goToDrawMap = new Intent(this.getView().getContext(), KartDrawActivity.class);
+			sendList = liste;
+			startActivity(goToDrawMap);
+			//TO-DO Create new activity and draw
+			break;
+		}
+
+
+		}
 	}
 	
 	

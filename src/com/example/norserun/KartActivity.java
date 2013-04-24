@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -65,7 +66,8 @@ public class KartActivity extends Activity implements OnClickListener{
         mapView.addLayer(layer);					//Du må ha et "filter" for at mappet ditt skal vises på skjermen
         
         tripLine = new WAPolyLine();
-        tripLine.setARGB(1, 255, 0, 0);
+        tripLine.setPaint(new Paint(Color.RED));
+//        tripLine.setARGB(1, 255, 0, 0);
         drawLayer = new WADrawLayer();
         dummyActivity = this;
         
@@ -108,6 +110,7 @@ public class KartActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onStop() {
 		super.onStop();
+		db.close();
  
 	}
  
@@ -132,6 +135,10 @@ public class KartActivity extends Activity implements OnClickListener{
 			firstDraw = false;
 		}
 		
+	}
+	
+	public void jumpToFirst(Location location){
+		this.mapView.centerOnCoordinate(new WACoordinate(location.getLongitude(),location.getLatitude(), WACRS.EPSG4326));
 	}
 	
 	protected void DrawTheRoute(List<Location> lol){
@@ -165,6 +172,7 @@ public class KartActivity extends Activity implements OnClickListener{
 		{	
 			Log.d(TAG, "stopped tracking");
 			GPSService.stopTracking();
+			stopService(new Intent(KartActivity.this, GPSService.class));
 			break;
 		}
 		case R.id.kartet:

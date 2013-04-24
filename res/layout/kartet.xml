@@ -85,20 +85,20 @@
 
     <Button
         android:id="@+id/startTrack"
-        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="Button" />
+        android:clickable="true"
+        android:text="Start Logging" />
 
     <Button
         android:id="@+id/stopTrack"
-        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Button" />
+        android:clickable="true"
+        android:text="Stopp Logging" />
 
 </RelativeLayout>

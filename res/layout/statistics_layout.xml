@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -8,7 +8,64 @@
         android:id="@+id/StatisticsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Statistics layout fragment"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/StatisticsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/StatisticsText"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/StatisticsSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/StatisticsTitle"
+        android:text="Gjennomsnittsfart: "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/StatisticsSpeedInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/StatisticsTitle"
+        android:layout_toRightOf="@+id/StatisticsSpeed" />
+
+    <TextView
+        android:id="@+id/StatisticsDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/StatisticsSpeed"
+        android:text="Distanse:: "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/StatisticsDistanceInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/StatisticsSpeedInput"
+        android:layout_below="@+id/StatisticsSpeedInput" />
+
+    <Button
+        android:id="@+id/DrawRouteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/StatisticsDistanceInput"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:text="Tegn tur" />
+
+    <Button
+        android:id="@+id/DeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/DrawRouteButton"
+        android:clickable="true"
+        android:text="Slett tur" />
+
+</RelativeLayout>
