@@ -103,14 +103,14 @@ public class KartActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onPause() {
 		super.onPause();
-
+		db.close();
 		mapView.pause();
 	}
  
 	@Override
 	protected void onStop() {
 		super.onStop();
-		db.close();
+		
  
 	}
  
