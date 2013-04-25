@@ -49,7 +49,7 @@ public class StatisticsHelper {
 				B.setLatitude(loc.getLatitude());
 				B.setLongitude(loc.getLongitude());
 				B.setTime(loc.getTime());
-				tempSpeed = A.distanceTo(B)/(B.getTime()-A.getTime());
+				tempSpeed = A.distanceTo(B)/((B.getTime()-A.getTime())/1000);
 				if(tempSpeed > maxSpeed) maxSpeed = tempSpeed;
 				lastLoc = loc;
 			}
@@ -108,7 +108,7 @@ public class StatisticsHelper {
 		
 		
 		else{
-			returnValue = (loclist.get(loclist.size()-1).getTime() - loclist.get(0).getTime())/60; 
+			returnValue = (loclist.get(loclist.size()-1).getTime()/1000 - loclist.get(0).getTime()/1000); 
 			minutes = (int) Math.floor(returnValue/60);
 			seconds =(int) (returnValue - minutes*60);
 			return (minutes+" minutter og "+seconds+" sekunder");
