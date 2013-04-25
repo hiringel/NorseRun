@@ -55,7 +55,7 @@ public class StatisticsHelper {
 			}
 		}
 		
-		return maxSpeed;
+		return (maxSpeed*3.6);
 		
 	}
 	
