@@ -38,6 +38,7 @@ public class KartActivity extends Activity implements OnClickListener{
 	private Location lastLocation;
 	public static KartActivity dummyActivity;
 	public RemindersDbAdapter db;
+	private boolean GPSServiceEnabled;
 	
 	private static final String TAGService = "LOCATION_SERVICE";
 	
@@ -48,11 +49,19 @@ public class KartActivity extends Activity implements OnClickListener{
 	WAPolyLine tripLine;
 	private Boolean tracking, firstDraw;
 	
+	private void startGPSService(){
+		if(!GPSServiceEnabled){
+		startService(new Intent(KartActivity.this, GPSService.class));
+		GPSService.startTracking();
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.kartet);
 		startService(new Intent(KartActivity.this, GPSService.class));
+		GPSServiceEnabled = true;
 		
 		Button startTracking = (Button)findViewById(R.id.startTrack);
 		Button stopTracking = (Button)findViewById(R.id.stopTrack);
@@ -164,6 +173,7 @@ public class KartActivity extends Activity implements OnClickListener{
 		case R.id.startTrack:
 		{	
 			Log.d(TAG, "started tracking");
+			startGPSService();
 			GPSService.startTracking();
 			break;
 		}
@@ -173,6 +183,7 @@ public class KartActivity extends Activity implements OnClickListener{
 			Log.d(TAG, "stopped tracking");
 			GPSService.stopTracking();
 			stopService(new Intent(KartActivity.this, GPSService.class));
+			GPSServiceEnabled = false;
 			break;
 		}
 		case R.id.kartet:
