@@ -1,5 +1,6 @@
 package com.example.norserun;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -114,10 +115,10 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
 			longtFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_LONG));
 			timeFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_TIME));
 			Log.d(SQL_TAG, "Strings: " + nameFromDb + latFromDb + longtFromDb + timeFromDb);
-			
+			DecimalFormat format = new DecimalFormat("##.00");
 			liste = StatisticsHelper.StringDeserializer(latFromDb, longtFromDb, timeFromDb);
-			speedText.setText(String.valueOf((float)StatisticsHelper.GetAverageSpeed(liste))+" Km/timen");
-			distanceText.setText(String.valueOf((float)StatisticsHelper.GetDistance(liste))+" meter");
+			speedText.setText(String.valueOf(format.format(StatisticsHelper.GetAverageSpeed(liste)))+" Km/timen");
+			distanceText.setText(String.valueOf(format.format(StatisticsHelper.GetDistance(liste)))+" meter");
 			titleText.setText(nameFromDb);
 //			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetAverageSpeed(liste)));
 //			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetDistance(liste)));
