@@ -200,9 +200,12 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
 	
 	public void onStop(){
 		super.onStop();
+	}
+	
+	public void onDestroy(){
+		super.onDestroy();
 		mDbHelper.close();
 	}
-
 
 
 	@Override

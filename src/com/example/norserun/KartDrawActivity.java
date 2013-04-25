@@ -109,13 +109,11 @@ public class KartDrawActivity extends Activity{
 	@Override
 	protected void onStop() {
 		super.onStop();
-		
- 
 	}
 	
 	protected void onDestroy() {
-		mapView.dispose();
 		super.onDestroy();
+		mapView.dispose();
 	}
 
 }

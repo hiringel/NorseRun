@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Service;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -187,13 +186,6 @@ public class GPSService extends Service implements LocationListener{
 	    	 KartActivity.dummyActivity.jumpToFirst(loc);
 	    	 hasJumpedToFirst = true;
 	     }
-	     
-//	     ContentValues values = new ContentValues();
-//	   
-//	     values.put(GPSData.GPSPoint.LONGITUDE, loc.getLongitude());
-//	        values.put(GPSData.GPSPoint.LATITUDE, loc.getLatitude());
-//	        values.put(GPSData.GPSPoint.TIME, loc.getTime());
-//	     getContentResolver().insert(GPSDataContentProvider.CONTENT_URI, values);
 	   }
 	
 	public static void createDbTuple(List<Location> loclist){

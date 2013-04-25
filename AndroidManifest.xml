@@ -43,8 +43,6 @@
         </activity>
         <activity 
             android:name="com.example.norserun.KartDrawActivity"></activity>
-        <provider  android:name="com.example.norserun.GPSDataContentProvider"
-            android:authorities="com.example.norserun.gpsdatacontentprovider"></provider>
         <service android:enabled="true" android:name=".GPSService" />
     </application>
 
