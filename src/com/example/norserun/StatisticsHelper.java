@@ -32,6 +32,33 @@ public class StatisticsHelper {
 		
 	}
 	
+	public static double GetMaxSpeed(List<Posisjon> loclist){
+		double maxSpeed = 0;
+		double tempSpeed = 0;
+		Location A = new Location("start");
+		Location B = new Location("end");
+		
+		
+		if(loclist.isEmpty()) return -1;
+		Posisjon lastLoc = loclist.get(0);
+		for(Posisjon loc : loclist){
+			if(!(lastLoc == null)){
+				A.setLatitude(lastLoc.getLatitude());
+				A.setLongitude(lastLoc.getLongitude());
+				A.setTime(lastLoc.getTime());
+				B.setLatitude(loc.getLatitude());
+				B.setLongitude(loc.getLongitude());
+				B.setTime(loc.getTime());
+				tempSpeed = A.distanceTo(B)/(B.getTime()-A.getTime());
+				if(tempSpeed > maxSpeed) maxSpeed = tempSpeed;
+				lastLoc = loc;
+			}
+		}
+		
+		return maxSpeed;
+		
+	}
+	
 	public static double GetAverageSpeed(List<Posisjon> loclist){
 		if(loclist.isEmpty()) return -1;
 		
@@ -71,6 +98,22 @@ public class StatisticsHelper {
 		
 		
 		return returnList;
+	}
+	
+	public static String TimeDifference(List<Posisjon> loclist){
+		long returnValue = 0;
+		int minutes = 0;
+		int seconds = 0;
+		if(loclist.isEmpty()) return "0.0";
+		
+		
+		else{
+			returnValue = (loclist.get(loclist.size()-1).getTime() - loclist.get(0).getTime())/60; 
+			minutes = (int) Math.floor(returnValue/60);
+			seconds =(int) (returnValue - minutes*60);
+			return (minutes+" minutter og "+seconds+" sekunder");
+		}
+		
 	}
 	
 	

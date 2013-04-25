@@ -926,9 +926,13 @@ containing a value of this type.
         public static final int DrawRouteButton=0x7f040040;
         public static final int StatisticsDistance=0x7f04003e;
         public static final int StatisticsDistanceInput=0x7f04003f;
+        public static final int StatisticsMaxSpeedInput=0x7f040045;
+        public static final int StatisticsMaxSpeedStatic=0x7f040044;
         public static final int StatisticsSpeed=0x7f04003c;
         public static final int StatisticsSpeedInput=0x7f04003d;
         public static final int StatisticsText=0x7f04003a;
+        public static final int StatisticsTime=0x7f040042;
+        public static final int StatisticsTimeInput=0x7f040043;
         public static final int StatisticsTitle=0x7f04003b;
         public static final int abs__action_bar=0x7f040022;
         public static final int abs__action_bar_container=0x7f040021;
@@ -977,7 +981,7 @@ containing a value of this type.
         public static final int kartet=0x7f040036;
         public static final int kartetdraw=0x7f040033;
         public static final int listMode=0x7f040002;
-        public static final int menu_settings=0x7f040042;
+        public static final int menu_settings=0x7f040046;
         public static final int normal=0x7f040001;
         public static final int realtabcontent=0x01010000;
         public static final int settingsButton=0x7f040035;

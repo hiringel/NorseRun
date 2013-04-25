@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/StatisticsSpeed"
-        android:text="Distanse:: "
+        android:text="Distanse: "
         android:textStyle="bold" />
 
     <TextView
@@ -67,5 +67,39 @@
         android:layout_toRightOf="@+id/DrawRouteButton"
         android:clickable="true"
         android:text="Slett tur" />
+
+    <TextView
+        android:id="@+id/StatisticsTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/StatisticsDistance"
+        android:text="Tid brukt: "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/StatisticsTimeInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/StatisticsTime"
+        android:layout_alignBottom="@+id/StatisticsTime"
+        android:layout_alignLeft="@+id/StatisticsSpeedInput" />
+
+    <TextView
+        android:id="@+id/StatisticsMaxSpeedStatic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/StatisticsTime"
+        android:text="Maks fart: "
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/StatisticsMaxSpeedInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/StatisticsMaxSpeedStatic"
+        android:layout_alignBottom="@+id/StatisticsMaxSpeedStatic"
+        android:layout_toRightOf="@+id/StatisticsSpeed" />
 
 </RelativeLayout>

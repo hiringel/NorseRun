@@ -39,6 +39,10 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
 	TextView titleText;
 	TextView distTextStatic;
 	TextView speedTextStatic;
+	TextView timeText;
+	TextView timeTextStatic;
+	TextView maxSpeed;
+	TextView maxSpeedStatic;
 	Button drawButton;
 	Button deleteButton;
 	TextView text;
@@ -81,6 +85,10 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
         distanceText = (TextView)getView().findViewById(R.id.StatisticsDistanceInput);
         distTextStatic = (TextView)getView().findViewById(R.id.StatisticsDistance);
         speedTextStatic = (TextView)getView().findViewById(R.id.StatisticsSpeed);
+        timeTextStatic = (TextView)getView().findViewById(R.id.StatisticsTime); 
+        timeText = (TextView)getView().findViewById(R.id.StatisticsTimeInput);	
+        maxSpeed = (TextView)getView().findViewById(R.id.StatisticsMaxSpeedInput);	
+        maxSpeedStatic = (TextView)getView().findViewById(R.id.StatisticsMaxSpeedStatic);	
         
         drawButton = (Button)getView().findViewById(R.id.DrawRouteButton);
         deleteButton = (Button)getView().findViewById(R.id.DeleteButton);
@@ -92,7 +100,10 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
         distanceText.setVisibility(View.VISIBLE);
         distTextStatic.setVisibility(View.VISIBLE);
         speedTextStatic.setVisibility(View.VISIBLE);
-
+        timeText.setVisibility(View.VISIBLE);
+        timeTextStatic.setVisibility(View.VISIBLE);
+        maxSpeed.setVisibility(View.VISIBLE);
+        maxSpeedStatic.setVisibility(View.VISIBLE);
 		
 		if(MainActivity.tripChosenInt == -1){
 			this.noRemindersShow();
@@ -115,10 +126,12 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
 			longtFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_LONG));
 			timeFromDb = reminder.getString(reminder.getColumnIndexOrThrow(RemindersDbAdapter.KEY_TIME));
 			Log.d(SQL_TAG, "Strings: " + nameFromDb + latFromDb + longtFromDb + timeFromDb);
-			DecimalFormat format = new DecimalFormat("##.00");
+			DecimalFormat format = new DecimalFormat("00.00");
 			liste = StatisticsHelper.StringDeserializer(latFromDb, longtFromDb, timeFromDb);
 			speedText.setText(String.valueOf(format.format(StatisticsHelper.GetAverageSpeed(liste)))+" Km/timen");
 			distanceText.setText(String.valueOf(format.format(StatisticsHelper.GetDistance(liste)))+" meter");
+			timeText.setText(StatisticsHelper.TimeDifference(liste));
+			maxSpeed.setText(String.valueOf(format.format(StatisticsHelper.GetMaxSpeed(liste)))+" Km/timen");
 			titleText.setText(nameFromDb);
 //			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetAverageSpeed(liste)));
 //			Log.d("POSISJON", String.valueOf(StatisticsHelper.GetDistance(liste)));
@@ -195,8 +208,12 @@ public class StatisticsFragment extends SherlockFragment implements OnClickListe
         distanceText.setVisibility(View.GONE);
         distTextStatic.setVisibility(View.GONE);
         speedTextStatic.setVisibility(View.GONE);
+        timeText.setVisibility(View.GONE);
+        timeTextStatic.setVisibility(View.GONE);
         drawButton.setVisibility(View.GONE);
         deleteButton.setVisibility(View.GONE);
+        maxSpeed.setVisibility(View.GONE);
+        maxSpeedStatic.setVisibility(View.GONE);
 	}
 	
 	public void onStop(){
