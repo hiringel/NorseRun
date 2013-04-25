@@ -55,7 +55,6 @@ public class KartDrawActivity extends Activity{
 		
 		for(Posisjon loc : lol){
 			tripLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
-			tripLine.setPath(EVEN_ODD);
 		}
 		drawLayer.addPolyLine(tripLine);
 		mapView.addDrawLayer(drawLayer);
