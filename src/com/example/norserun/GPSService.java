@@ -170,7 +170,7 @@ public class GPSService extends Service implements LocationListener{
 
 		if(!listloc.isEmpty()){
 			
-			KartActivity.dummyActivity.DrawTheRoute(listloc);
+			KartActivity.dummyActivity.DrawRouteSpeed(listloc);
 		}
 		}
 

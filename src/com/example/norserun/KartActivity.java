@@ -35,10 +35,16 @@ public class KartActivity extends Activity implements OnClickListener{
 	WAMapView mapView;
 	WALayer layer;
 	WADrawLayer drawLayer;
+	WADrawLayer redLayer;
+	WADrawLayer greenLayer;
 	private Location lastLocation;
 	public static KartActivity dummyActivity;
 	public RemindersDbAdapter db;
 	private boolean GPSServiceEnabled;
+	
+	WAPolyLine fastLine;
+	WAPolyLine slowLine;
+	WAPolyLine medLine;
 	
 	private static final String TAGService = "LOCATION_SERVICE";
 	
@@ -46,7 +52,6 @@ public class KartActivity extends Activity implements OnClickListener{
 	private static final String TAG = "FilterLocation";
 
 	Trip currentTrip;
-	WAPolyLine tripLine;
 	private Boolean tracking, firstDraw;
 	
 	private void startGPSService(){
@@ -74,14 +79,20 @@ public class KartActivity extends Activity implements OnClickListener{
         layer = new WALayer(WAMapStyle.VECTOR);
         mapView.addLayer(layer);					//Du må ha et "filter" for at mappet ditt skal vises på skjermen
         
-        tripLine = new WAPolyLine();
-        tripLine.setPaint(new Paint(Color.RED));
-//        tripLine.setARGB(1, 255, 0, 0);
+	     fastLine = new WAPolyLine();
+	     slowLine = new WAPolyLine();
+	     medLine = new WAPolyLine();
+	     fastLine.setARGB(1, 254, 0, 0);
+	     medLine.setARGB(1, 254, 0, 254);
+	     slowLine.setARGB(1, 0, 254, 0);
+	     drawLayer = new WADrawLayer();
+	     redLayer = new WADrawLayer();
+	     greenLayer = new WADrawLayer();
         drawLayer = new WADrawLayer();
         dummyActivity = this;
         
         db = new RemindersDbAdapter(this);
-        db.open();
+//        db.open();
         
         
         
@@ -106,6 +117,7 @@ public class KartActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onResume() {
 		super.onResume();
+		db.open();
 		mapView.resume();
 	}
  
@@ -130,35 +142,79 @@ public class KartActivity extends Activity implements OnClickListener{
 		super.onDestroy();
 	}
 	
-	protected void DrawPolyLine(Location location){
-		this.tripLine.addCoordinate(new WACoordinate(location.getLongitude(), location.getLatitude(), WACRS.EPSG4326));
-		this.drawLayer.addPolyLine(tripLine);
-		if(!this.mapView.getDrawLayers().contains(drawLayer))this.mapView.addDrawLayer(drawLayer);
-		Log.d(TAGService, "Drawing..");
-		
-		
-		if(this.firstDraw){
-			Log.d(TAGService, "Drawing first time");
-			this.mapView.centerOnCoordinate(new WACoordinate(location.getLongitude(),location.getLatitude(), WACRS.EPSG4326));
-			
-			firstDraw = false;
-		}
-		
-	}
+//	protected void DrawPolyLine(Location location){
+//		this.tripLine.addCoordinate(new WACoordinate(location.getLongitude(), location.getLatitude(), WACRS.EPSG4326));
+//		this.drawLayer.addPolyLine(tripLine);
+//		if(!this.mapView.getDrawLayers().contains(drawLayer))this.mapView.addDrawLayer(drawLayer);
+//		Log.d(TAGService, "Drawing..");
+//		
+//		
+//		if(this.firstDraw){
+//			Log.d(TAGService, "Drawing first time");
+//			this.mapView.centerOnCoordinate(new WACoordinate(location.getLongitude(),location.getLatitude(), WACRS.EPSG4326));
+//			
+//			firstDraw = false;
+//		}
+//		
+//	}
 	
 	public void jumpToFirst(Location location){
 		this.mapView.centerOnCoordinate(new WACoordinate(location.getLongitude(),location.getLatitude(), WACRS.EPSG4326));
 	}
 	
-	protected void DrawTheRoute(List<Location> lol){
+//	protected void DrawTheRoute(List<Location> lol){
+//		
+//		for(Location loc : lol){
+//			tripLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
+//		}
+//		drawLayer.addPolyLine(tripLine);
+//		mapView.addDrawLayer(drawLayer);
+//		mapView.centerOnCoordinate(new WACoordinate(lol.get(0).getLongitude(),lol.get(0).getLatitude(), WACRS.EPSG4326));
+//		
+//		
+//	}
+	
+	protected void DrawRouteSpeed(List<Location> loclist){
+		double tempSpeed = 0;
+		Location A = new Location("start");
+		Location B = new Location("end");
+
 		
-		for(Location loc : lol){
-			tripLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
+		if(loclist.isEmpty()) return;
+		Location lastLoc = loclist.get(0);
+		for(Location loc : loclist){
+			if(loclist.indexOf(loc) == loclist.size()-1) continue;
+			if(!(lastLoc == null)){
+				A.setLatitude(lastLoc.getLatitude());
+				A.setLongitude(lastLoc.getLongitude());
+				A.setTime(lastLoc.getTime());
+				B.setLatitude(loc.getLatitude());
+				B.setLongitude(loc.getLongitude());
+				B.setTime(loc.getTime());
+				tempSpeed = A.distanceTo(B)/((B.getTime()-A.getTime())/1000);
+				if(tempSpeed > 15){
+					fastLine.addCoordinate(new WACoordinate(lastLoc.getLongitude(), lastLoc.getLatitude(), WACRS.EPSG4326));
+					fastLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
+					redLayer.addPolyLine(fastLine);
+				}
+				else if (tempSpeed > 10) {
+					medLine.addCoordinate(new WACoordinate(lastLoc.getLongitude(), lastLoc.getLatitude(), WACRS.EPSG4326));
+					medLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
+					drawLayer.addPolyLine(medLine);
+				}
+				else{
+					slowLine.addCoordinate(new WACoordinate(lastLoc.getLongitude(), lastLoc.getLatitude(), WACRS.EPSG4326));
+					slowLine.addCoordinate(new WACoordinate(loc.getLongitude(), loc.getLatitude(), WACRS.EPSG4326));
+					greenLayer.addPolyLine(slowLine);
+				}
+				lastLoc = loc;
+			}
 		}
-		drawLayer.addPolyLine(tripLine);
 		mapView.addDrawLayer(drawLayer);
-		mapView.centerOnCoordinate(new WACoordinate(lol.get(0).getLongitude(),lol.get(0).getLatitude(), WACRS.EPSG4326));
-		
+		mapView.addDrawLayer(redLayer);
+		mapView.addDrawLayer(greenLayer);
+		mapView.centerOnCoordinate(new WACoordinate(loclist.get(0).getLongitude(),loclist.get(0).getLatitude(), WACRS.EPSG4326));
+		return;
 		
 	}
 
